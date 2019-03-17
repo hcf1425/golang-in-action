@@ -25,10 +25,22 @@ func main() {
 	Disconnect(a)
 }
 
-func Disconnect(usb USB) {
-	if pc, ok := usb.(PhoneConnector); ok {
-		fmt.Println("Disconnected", pc.name)
-		return
+//ok pattern
+//func Disconnect(usb USB) {
+//	if pc, ok := usb.(PhoneConnector); ok {
+//		fmt.Println("Disconnected", pc.name)
+//		return
+//	}
+//	fmt.Println("Unknown device!")
+//}
+
+//switch type  ---> 传入空接口时用得比较多。
+func Disconnect(usb interface{}) {
+	switch v := usb.(type) {
+	case PhoneConnector:
+		fmt.Println("Diconnected", v.name)
+	default:
+		fmt.Println("Unknown device!")
 	}
-	fmt.Println("Unknown device!")
+
 }
